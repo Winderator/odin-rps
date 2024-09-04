@@ -10,27 +10,31 @@ function getHumanChoice(){
     return choice
 }
 
-function playRound(){
-    let human = getHumanChoice().toLowerCase()
-    let computer = getComputerChoice()
+function playRound(humanChoice){
+    let computerChoice = getComputerChoice()
 
-    let winner = determineWinner(human,computer)
+    let winner = determineWinner(humanChoice,computerChoice)
     if (winner == 'human') {humanScore++}
     if (winner == 'computer') {computerScore++}
-    return winner
+    console.log(winner)
 }
 
 function determineWinner(a,b){
     if (a==b) {return "tie"}
+
+    // Checks all 3 scenarios where the human wins
     if (a=="rock" && b=="scissors" || a=="paper" && b=="rock" || a=="scissors" && b=="paper") {return "human"}
+
     return "computer"
 }
 
 function playGame(){
-    for (let i=0; i<5; i++){
-        playRound()
-        console.log(`Human:${humanScore}, Computer:${computerScore}`)
+    let buttons = document.querySelectorAll(".choice")
+
+    buttons.forEach(button => {
+        button.addEventListener('click',() => playRound(button.id))
     }
+    )
 }
 
 let humanScore = 0
