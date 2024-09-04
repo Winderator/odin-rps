@@ -11,12 +11,19 @@ function getHumanChoice(){
 }
 
 function playRound(humanChoice){
+    if (isGameOver) {return}
+
     let computerChoice = getComputerChoice()
 
     let winner = determineWinner(humanChoice,computerChoice)
     if (winner == 'human') {humanScore++}
     if (winner == 'computer') {computerScore++}
-    console.log(winner)
+
+    updateResults()
+    if (humanScore > 4 || computerScore > 4){
+        isGameOver = true
+        announceWinner(winner)
+    }
 }
 
 function determineWinner(a,b){
@@ -37,7 +44,26 @@ function playGame(){
     )
 }
 
+function updateResults(){
+    let humanResults = document.querySelector(".human-score")
+    let computerResults = document.querySelector(".computer-score")
+
+    humanResults.textContent = humanScore.toString()
+    computerResults.textContent = computerScore.toString()
+}
+
+function announceWinner(winner){
+    let results = document.querySelector(".results")
+    let resultText = `The winner is: ${winner}`
+
+    let resultElement = document.createElement("p")
+    resultElement.innerText = resultText
+
+    results.appendChild(resultElement)
+}
+
 let humanScore = 0
 let computerScore = 0
+let isGameOver = false
 
 playGame()
